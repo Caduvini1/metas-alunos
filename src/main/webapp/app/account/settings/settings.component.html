@@ -1,0 +1,118 @@
+<div>
+  <div class="d-flex justify-content-center">
+    <div class="col-md-8">
+      @if (settingsForm.value.login) {
+        <h2>
+          Configurações para o usuário [<strong>{{ settingsForm.value.login }}</strong
+          >]
+        </h2>
+      }
+
+      @if (success()) {
+        <div class="alert alert-success"><strong>Configurações salvas com sucesso!</strong></div>
+      }
+
+      <jhi-alert-error></jhi-alert-error>
+
+      @if (settingsForm.value.login) {
+        <form name="form" (ngSubmit)="save()" [formGroup]="settingsForm" novalidate>
+          <div class="mb-3">
+            <label class="form-label" for="firstName">Nome</label>
+            <input
+              type="text"
+              class="form-control"
+              id="firstName"
+              name="firstName"
+              placeholder="Seu nome"
+              formControlName="firstName"
+              data-cy="firstname"
+            />
+
+            @let firstNameRef = settingsForm.get('firstName')!;
+            @if (firstNameRef.invalid && (firstNameRef.dirty || firstNameRef.touched)) {
+              <div>
+                @if (firstNameRef?.errors?.required) {
+                  <small class="form-text text-danger">O nome é obrigatório.</small>
+                }
+
+                @if (firstNameRef?.errors?.minlength) {
+                  <small class="form-text text-danger">O nome deve ter pelo menos 1 caractere</small>
+                }
+
+                @if (firstNameRef?.errors?.maxlength) {
+                  <small class="form-text text-danger">O nome não pode ter mais de 50 caracteres</small>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="lastName">Sobrenome</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lastName"
+              name="lastName"
+              placeholder="Seu sobrenome"
+              formControlName="lastName"
+              data-cy="lastname"
+            />
+
+            @let lastNameRef = settingsForm.get('lastName')!;
+            @if (lastNameRef.invalid && (lastNameRef.dirty || lastNameRef.touched)) {
+              <div>
+                @if (lastNameRef?.errors?.required) {
+                  <small class="form-text text-danger">O sobrenome é obrigatório.</small>
+                }
+
+                @if (lastNameRef?.errors?.minlength) {
+                  <small class="form-text text-danger">O sobrenome deve ter pelo menos 1 caractere</small>
+                }
+
+                @if (lastNameRef?.errors?.maxlength) {
+                  <small class="form-text text-danger">O sobrenome não pode ter mais de 50 caracteres</small>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="email">E-mail</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Seu e-mail"
+              formControlName="email"
+              data-cy="email"
+            />
+
+            @let emailRef = settingsForm.get('email')!;
+            @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
+              <div>
+                @if (emailRef?.errors?.required) {
+                  <small class="form-text text-danger">O e-mail é obrigatório.</small>
+                }
+
+                @if (emailRef?.errors?.email) {
+                  <small class="form-text text-danger">E-mail inválido.</small>
+                }
+
+                @if (emailRef?.errors?.minlength) {
+                  <small class="form-text text-danger">O e-mail deve ter pelo menos 5 caracteres</small>
+                }
+
+                @if (emailRef?.errors?.maxlength) {
+                  <small class="form-text text-danger">O e-mail não pode ter mais de 50 caracteres</small>
+                }
+              </div>
+            }
+          </div>
+
+          <button type="submit" [disabled]="settingsForm.invalid" class="btn btn-primary" data-cy="submit">Salvar</button>
+        </form>
+      }
+    </div>
+  </div>
+</div>
