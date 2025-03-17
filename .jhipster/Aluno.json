@@ -1,0 +1,31 @@
+{
+  "annotations": {
+    "changelogDate": "20250316230336"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Aluno",
+  "relationships": [
+    {
+      "otherEntityName": "meta",
+      "otherEntityRelationshipName": "aluno",
+      "relationshipName": "meta",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "total",
+      "otherEntityRelationshipName": "aluno",
+      "relationshipName": "total",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no"
+}

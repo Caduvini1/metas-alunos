@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20250316230337"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "valor",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "area",
+      "fieldType": "AreaDoEnem",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "LINGUAGENS,CIENCIAS_HUMANAS,CIENCIAS_NATURAIS,MATEMATICA"
+    }
+  ],
+  "name": "Meta",
+  "relationships": [
+    {
+      "otherEntityName": "aluno",
+      "otherEntityRelationshipName": "meta",
+      "relationshipName": "aluno",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no"
+}

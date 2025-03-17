@@ -1,0 +1,27 @@
+entity Aluno {
+  nome String required
+}
+
+entity Meta {
+  valor Integer required
+  area AreaDoEnem required
+}
+
+entity Total {
+  media Double required
+}
+
+enum AreaDoEnem {
+  LINGUAGENS,
+  CIENCIAS_HUMANAS,
+  CIENCIAS_NATURAIS,
+  MATEMATICA
+}
+
+relationship OneToMany {
+  Aluno{meta} to Meta{aluno}
+  Aluno{total} to Total{aluno}
+}
+
+
+

@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-meta-heading" data-cy="MetaCreateUpdateHeading">Criar ou editar Meta</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let valorRef = editForm.get('valor')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_valor">Valor</label>
+          <input type="number" class="form-control" name="valor" id="field_valor" data-cy="valor" formControlName="valor" />
+          @if (valorRef.invalid && (valorRef.dirty || valorRef.touched)) {
+            <div>
+              @if (editForm.get('valor')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('valor')?.errors?.number">Este campo é do tipo numérico.</small>
+            </div>
+          }
+        </div>
+
+        @let areaRef = editForm.get('area')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_area">Area</label>
+          <select class="form-control" name="area" formControlName="area" id="field_area" data-cy="area">
+            <option [ngValue]="null"></option>
+            @for (areaDoEnem of areaDoEnemValues; track $index) {
+              <option [value]="areaDoEnem">
+                {{
+                  {
+                    null: '',
+                    LINGUAGENS: 'LINGUAGENS',
+                    CIENCIAS_HUMANAS: 'CIENCIAS_HUMANAS',
+                    CIENCIAS_NATURAIS: 'CIENCIAS_NATURAIS',
+                    MATEMATICA: 'MATEMATICA',
+                  }[areaDoEnem]
+                }}
+              </option>
+            }
+          </select>
+          @if (areaRef.invalid && (areaRef.dirty || areaRef.touched)) {
+            <div>
+              @if (editForm.get('area')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_aluno">Aluno</label>
+          <select class="form-control" id="field_aluno" data-cy="aluno" name="aluno" formControlName="aluno" [compareWith]="compareAluno">
+            <option [ngValue]="null"></option>
+            @for (alunoOption of alunosSharedCollection; track $index) {
+              <option [ngValue]="alunoOption">{{ alunoOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

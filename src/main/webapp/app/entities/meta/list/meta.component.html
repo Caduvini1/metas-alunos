@@ -1,0 +1,115 @@
+<div>
+  <h2 id="page-heading" data-cy="MetaHeading">
+    <span>Metas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span>Atualizar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-meta"
+        [routerLink]="['/meta/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Criar novo Meta</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (metas().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Nenhum Meta encontrado</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>Código</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="valor">
+              <div class="d-flex">
+                <span>Valor</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="area">
+              <div class="d-flex">
+                <span>Area</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aluno.id">
+              <div class="d-flex">
+                <span>Aluno</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (meta of metas(); track trackId(meta)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/meta', meta.id, 'view']">{{ meta.id }}</a>
+              </td>
+              <td>{{ meta.valor }}</td>
+              <td>
+                {{
+                  {
+                    null: '',
+                    LINGUAGENS: 'LINGUAGENS',
+                    CIENCIAS_HUMANAS: 'CIENCIAS_HUMANAS',
+                    CIENCIAS_NATURAIS: 'CIENCIAS_NATURAIS',
+                    MATEMATICA: 'MATEMATICA',
+                  }[meta.area ?? 'null']
+                }}
+              </td>
+              <td>
+                @if (meta.aluno) {
+                  <div>
+                    <a [routerLink]="['/aluno', meta.aluno.id, 'view']">{{ meta.aluno.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/meta', meta.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Visualizar</span>
+                  </a>
+
+                  <a [routerLink]="['/meta', meta.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(meta)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
